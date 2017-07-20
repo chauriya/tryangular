@@ -183,5 +183,5 @@ Sample Response
 	]
 }
 ```
-Wiki Ref.
-[https://wiki.nge.wdig.com/display/NGE/Itinerary+-+Web+API](https://wiki.nge.wdig.com/display/NGE/Itinerary+-+Web+API)
+### Wiki Ref.
+[https://wiki.nge.wdig.com/display/NGE/MOO+-+Get+Order+Total+API](https://wiki.nge.wdig.com/display/NGE/MOO+-+Get+Order+Total+API)
