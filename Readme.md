@@ -183,3 +183,5 @@ Sample Response
 	]
 }
 ```
+Wiki Ref.
+[https://wiki.nge.wdig.com/display/NGE/Itinerary+-+Web+API](https://wiki.nge.wdig.com/display/NGE/Itinerary+-+Web+API)
