@@ -11,8 +11,7 @@ This API will take a list of items from the mobile client with the guest orders 
 
 It is the third party service which receives a request including order ID and store ID from mobile client which stores all items on its side with prices and maps the uuid received from mobile ordering orchestration service to the linked price. The VN does the calculation (sum) and taxes and returns the total prices, discounts, tips and sort out things on the VN response (Get total order api) and differentiates between the items consideration covered by dining plan.
 
-Input and Output Parameters of VenueNext
-=========================================
+### Input and Output Parameters of VenueNext
 
 The input parameters received from mobile ordering orchestration service comprises of store ID, order ID and item ID of VN such as storeVNId, orderVNId and different items details such as itemVNId and type.
 
@@ -28,6 +27,7 @@ Headers:
 	- Content-Type: application/x-www-form-urlencoded
 
 Payload:
+```
 	{
 		"stand_menu_uuid": "e3a0fcad-0baf-4569-a8ab-1bd73b8776ec",
 		"order_uuid": "9f11ec71-9345-4114-9bda-087365cdfc2a",
@@ -50,6 +50,9 @@ Payload:
 			}
 		]
 	}
+```
+
+The output parameters of VenueNext would include details pertaining to discount, taxes, total amount, payment and tips details.
 
 Output:
 ```
@@ -78,14 +81,51 @@ Output:
 			"nutritional_values": []
 		}
 	}
+``` 
+
+### Paramters required to add dine plans [TBD]
+
+The input parameter required to add dine plan will differentiate between the items covered by dine plan by `items[].diningPlanEligible`.
+
+### Example
+Sample Payload
+
 ```
+{
+	storeVNId: "e3a0fcad-0baf-4569-a8ab-1bd73b8776ec",
+	orderVNId: "9f11ec71-9345-4114-9bda-087365cdfc2a",
+	items: [
+		{
+			itemVNId: "a82a26be-7f15-4f8d-9495-aa6c212658f9",
+			diningPlanEligible: true,
+			type: "disney_app",
+			modifiers:[
+				{
+					itemVNId: "1393c80c-7480-4a0c-b04c-b0b35449a910",
+					type: "disney_app"
+				}
+			]
+		},
+		{
+			itemVNId: "1393c80c-7480-4a0c-b04c-b0b35449a910",
+			diningPlanEligible: false,
+			type: "disney_dining_plan",
+			modifiers:[
+				{
+					itemVNId: "1393c80c-7480-4a0c-b04c-b0b35449a972",
+					type: "disney_dining_plan"
+				}
+			]
+		},
+		{
+			itemVNId: "1393c80c-7480-4a0c-b04c-z0b35449x912",
+			diningPlanEligible: false,
+			type: "disney_dining_plan"
+		}
+	]
+}
 
-The output parameters of VenueNext would include details pertaining to discount, taxes, total amount, payment and tips details. 
-
-Paramters required to add dine plans/ input output modification required for dine plan
-=======================================================================================
-
-The input parameter required to add dine plan will differentiate between the items covered by dine plan by `items[].diningPlanEligible`
+```
 
 The output paramter of the dine plan includes `diningPlanCoveredAmountInCents` and `totalAmountInCents`.
 
@@ -93,3 +133,53 @@ The output paramter of the dine plan includes `diningPlanCoveredAmountInCents` a
 
 `totalAmountInCents`: returns the total of the covered items.
 
+Sample Response
+
+```
+{
+	discountAmountInCents: null,
+	discountRate: null,
+	serviceChargeInCents: null,
+	taxRate: 0.0,
+	totalTaxAmountInCents: 69,
+	totalTaxAmount: 0.69,
+	diningPlanCoveredAmountInCents: "559",
+	totalAmountInCents: 1118,
+	totalAmount: 11.18, 
+	totalsWithPayments:[
+		{
+			paymentType: "disney_app",
+			taxAmountInCents: 34,
+			taxAmount: "0.34",
+			diningPlanCoveredAmountInCents: "559",
+			totalAmountInCents: "559",
+			totalAmount: "5.59"
+		},
+		{
+			paymentType: "disney_dining_plan",
+			taxAmountInCents: "34",
+			taxAmount: "0.34",
+			diningPlanCoveredAmountInCents: "0"
+			totalAmountInCents: "559",
+			totalAmount: "5.59"
+		}
+	],
+	tipSuggestions:[
+		{
+			tipAmountInCents: "157",
+			tipAmount: "1.57",
+			tipDisplay: "Tip 15%"
+		},
+		{
+			tipAmountInCents: "210",
+			tipAmount: "2.10",
+			tipDisplay: "Tip 20%"
+		},
+		{
+			tipAmountInCents: "262",
+			tipAmount: "2.62",
+			tipDisplay: "Tip 25%"
+		}
+	]
+}
+```
