@@ -28,7 +28,6 @@ Headers:
 	- Content-Type: application/x-www-form-urlencoded
 
 Payload:
-```
 	{
 		"stand_menu_uuid": "e3a0fcad-0baf-4569-a8ab-1bd73b8776ec",
 		"order_uuid": "9f11ec71-9345-4114-9bda-087365cdfc2a",
@@ -51,7 +50,7 @@ Payload:
 			}
 		]
 	}
-```
+
 Output:
 ```
 	{
