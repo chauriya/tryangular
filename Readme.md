@@ -18,7 +18,7 @@ The input parameters received from mobile ordering orchestration service compris
 
 This service retrieves a valid SWID after authenticating and validating the user request.
 
-###Example
+### Example
 Sample Request
 	
 	POST https://disney-production-stadium.venuenext.net/v4/orders/total.json
@@ -93,6 +93,4 @@ The output paramter of the dine plan includes `diningPlanCoveredAmountInCents` a
 `diningPlanCoveredAmountInCents`: returns the total of the order (including the ones covered by a dining plan).
 
 `totalAmountInCents`: returns the total of the covered items.
-
-
 
