@@ -24,7 +24,9 @@ Sample Request
 
 Headers:
 
-	- Content-Type: application/x-www-form-urlencoded
+	- Content-Type: application/json
+
+Current State:
 
 Payload:
 ```
@@ -83,9 +85,79 @@ Output:
 	}
 ``` 
 
-### Paramters required to add dine plans [TBD]
+New State (to support dining plans):
 
-The input parameter required to add dine plan will differentiate between the items covered by dine plan by `items[].diningPlanEligible`.
+Payload:
+```
+    {
+	    "stand_menu_uuid": "e3a0fcad-0baf-4569-a8ab-1bd73b8776ec",
+	    "order_uuid": "9f11ec71-9345-4114-9bda-087365cdfc2a",
+	    "order_menu_items": [
+	        {
+		        "menu_item_uuid": "a82a26be-7f15-4f8d-9495-aa6c212658f9",
+		        "quantity": 1,
+		        "payment_type": "disney_dining_plan",
+		        "modifiers": [
+		            [
+		                {
+			                 "menu_item_uuid": "1393c80c-7480-4a0c-b04c-b0b35449a910",
+			                 "quantity": 1,
+			                 "payment_type": "disney_dining_plan"
+		                },
+		                {
+			                 "menu_item_uuid": "1393c80c-7480-4a0c-b04c-b0b35449a910",
+			                 "quantity": 1,
+			                 "payment_type": "disney_app"
+		                }
+		            ]
+		        ]
+	        }
+	    ]
+    }
+```   
+
+Output:
+```
+	{
+		"discount_amount_in_cents": null,
+		"discount_rate": null,
+		"service_charge_in_cents": null,
+		"tax_rate": 0.0,
+		"tax_amount_in_cents": 69,
+		"total_amount_in_cents": 1118,
+		"totals_with_payment_types": [{
+		        "payment_type": "disney_dining_plan",
+		        "tax_amount_in_cents": 34,
+		        "total_amount_in_cents": 559
+	        },
+	        {
+		        "payment_type": "disney_app",
+		        "tax_amount_in_cents": 34,
+		        "total_amount_in_cents": 559
+	        }
+	    ],
+		"tip_suggestions": [
+			{
+				"tip_amount_in_cents": 157,
+				"tip_display": "Tip 15%"
+			},
+			{
+				"tip_amount_in_cents": 210,
+				"tip_display": "Tip 20%"
+			},
+			{
+				"tip_amount_in_cents": 262,
+				"tip_display": "Tip 25%"
+			}
+		],
+		"nutritional_attributes": {
+			"nutritional_values": []
+		}
+	}
+``` 
+### Paramters required to add dine plans 
+
+The input parameter required to add dine plan will differentiate between the items covered by dine plan by `items[].type`.
 
 ### Example
 Sample Payload
@@ -97,7 +169,6 @@ Sample Payload
 	items: [
 		{
 			itemVNId: "a82a26be-7f15-4f8d-9495-aa6c212658f9",
-			diningPlanEligible: true,
 			type: "disney_app",
 			modifiers:[
 				{
@@ -108,7 +179,6 @@ Sample Payload
 		},
 		{
 			itemVNId: "1393c80c-7480-4a0c-b04c-b0b35449a910",
-			diningPlanEligible: false,
 			type: "disney_dining_plan",
 			modifiers:[
 				{
@@ -119,7 +189,6 @@ Sample Payload
 		},
 		{
 			itemVNId: "1393c80c-7480-4a0c-b04c-z0b35449x912",
-			diningPlanEligible: false,
 			type: "disney_dining_plan"
 		}
 	]
@@ -127,9 +196,9 @@ Sample Payload
 
 ```
 
-The output paramter of the dine plan includes `diningPlanCoveredAmountInCents` and `totalAmountInCents`.
+The output paramter of the dine plan includes `totalsWithPayments` and `totalAmountInCents`.
 
-`diningPlanCoveredAmountInCents`: returns the total of the order (including the ones covered by a dining plan).
+`totalsWithPayments`: returns the total of the order (including the ones covered by a dining plan).
 
 `totalAmountInCents`: returns the total of the covered items.
 
@@ -183,5 +252,5 @@ Sample Response
 	]
 }
 ```
-### Wiki Ref.
+### Reference
 [https://wiki.nge.wdig.com/display/NGE/MOO+-+Get+Order+Total+API](https://wiki.nge.wdig.com/display/NGE/MOO+-+Get+Order+Total+API)
