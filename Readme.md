@@ -252,5 +252,9 @@ Sample Response
 	]
 }
 ```
+### API Authentication
+
+Get Order Total API authentication will be done using oAuth 1.0, where venue next will share Consumer Key and Consumer Secret and MOO service will load this as Authorization Header pass to VN for authentication.
+
 ### Reference
 [https://wiki.nge.wdig.com/display/NGE/MOO+-+Get+Order+Total+API](https://wiki.nge.wdig.com/display/NGE/MOO+-+Get+Order+Total+API)
